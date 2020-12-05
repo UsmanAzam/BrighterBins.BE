@@ -51,7 +51,7 @@ namespace BrighterBins.BE.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBinById(string id)
+        public async Task<IActionResult> GetBinById(int id)
         {
             var response = new SingleResponse<Bin>();
 

@@ -7,7 +7,7 @@ namespace BrighterBins.BE.Models
 {
     public class Message
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int Time { get; set; }
         public int Fill { get; set; }
     }

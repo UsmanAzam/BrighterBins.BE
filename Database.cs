@@ -10,6 +10,8 @@ namespace BrighterBins.BE
     {
         static private List<User> _users = new List<User>();
         static private List<Bin> _bins = new List<Bin>();
+        static int binIndex = 1;
+        static int messageIndex = 1;
         static Database()
         {
             Seed();
@@ -33,7 +35,7 @@ namespace BrighterBins.BE
             for (int i=0; i <30; i++)
             {
                 var bin = new Bin() { 
-                    Id = Guid.NewGuid().ToString(), 
+                    Id = binIndex, 
                     Name = string.Format("Bin# {0}", rnd.Next(1,50)), 
                     FillLevel = rnd.Next(1, 100), 
                     Lat = 50d + rnd.Next(516400146, 630304598) / 1000000000d, 
@@ -43,12 +45,14 @@ namespace BrighterBins.BE
                 {
                     bin.Messages.Add(new Message()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = messageIndex,
                         Time = rnd.Next(1, 24),
                         Fill = rnd.Next(1, 100),
                     });
+                    messageIndex++;
                 }
                 _bins.Add(bin);
+                binIndex++;
             }
             
         }

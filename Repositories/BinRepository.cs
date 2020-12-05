@@ -29,7 +29,7 @@ namespace BrighterBins.BE.Repositories
             
         }
 
-        public async Task<Bin> ReadOneAsync(string id)
+        public async Task<Bin> ReadOneAsync(int id)
         {
             return await Task.Run(() =>
             {
