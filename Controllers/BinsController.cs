@@ -1,4 +1,5 @@
 ﻿using BrighterBins.BE.Models;
+using BrighterBins.BE.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,16 +14,19 @@ namespace BrighterBins.BE.Controllers
     public class BinsController : ControllerBase
     {
         private readonly ILogger<BinsController> _logger;
+        private readonly IBinRepository _binRepository;
 
-        public BinsController(ILogger<BinsController> logger)
+        public BinsController(ILogger<BinsController> logger, IBinRepository binRepository)
         {
             _logger = logger;
+            _binRepository = binRepository ?? throw new ArgumentNullException(nameof(binRepository));
         }
 
         [HttpGet]
-        public IEnumerable<Bin> Get()
+        public async Task<List<Bin>> GetAsync()
         {
-            return Database.Bins;
+            return await _binRepository.ReadAllAsync();
         }
     }
 }
+

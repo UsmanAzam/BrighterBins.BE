@@ -1,3 +1,5 @@
+using BrighterBins.BE.Repositories;
+using BrighterBins.BE.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +33,8 @@ namespace BrighterBins.BE
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BrighterBins.BE", Version = "v1" });
             });
+
+            services.AddScoped<IBinRepository, BinRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
