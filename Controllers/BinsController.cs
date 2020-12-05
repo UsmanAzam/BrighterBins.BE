@@ -27,10 +27,16 @@ namespace BrighterBins.BE.Controllers
         }
 
         [HttpGet]
-        public async Task<List<BinViewModel>> GetAsync()
+        public async Task<List<BinViewModel>> GetAllBinsAsync()
         {
             var bins =  await _binRepository.ReadAllAsync();
             return  _mapper.Map<List<BinViewModel>>(bins);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Bin> GetBinById(string id)
+        {
+            return await _binRepository.ReadOneAsync(id);
         }
     }
 }

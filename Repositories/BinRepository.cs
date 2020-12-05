@@ -29,9 +29,12 @@ namespace BrighterBins.BE.Repositories
             
         }
 
-        public Task<Bin> ReadOneAsync(string id)
+        public async Task<Bin> ReadOneAsync(string id)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                return Database.Bins.SingleOrDefault(x => x.Id == id);
+            });
         }
 
         public Task<Bin> UpdateAsync(Bin bin)
