@@ -18,13 +18,17 @@ namespace BrighterBins.BE.Controllers
     {
         private readonly ILogger<BinsController> _logger;
         private readonly IBinRepository _binRepository;
+        private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;
 
-        public BinsController(ILogger<BinsController> logger, IMapper mapper, IBinRepository binRepository)
+        public BinsController(ILogger<BinsController> logger, IMapper mapper, IBinRepository binRepository,
+            IMessageRepository messageRepository)
         {
             _logger = logger;
             _mapper = mapper;
             _binRepository = binRepository ?? throw new ArgumentNullException(nameof(binRepository));
+            _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
+
         }
 
         [HttpGet]
@@ -51,13 +55,35 @@ namespace BrighterBins.BE.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBinById(int id)
+        public async Task<IActionResult> GetBinByIdAsync(int id)
         {
             var response = new SingleResponse<Bin>();
 
             try
             {
                 response.Model = await _binRepository.ReadOneAsync(id); 
+
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = "Server Error";
+                response.ErrorDetails = $"{ex.Message}\n{ex.InnerException?.Message}\n{ex.InnerException?.InnerException?.Message}";
+
+            }
+
+            return response.ToHttpResponse();
+        }
+
+        [HttpGet("{id}/messages")]
+        public async Task<IActionResult> GetMessagesByBinIdAsync(int id)
+        {
+            var response = new ListResponse<Message>();
+
+            try
+            {
+                var messages = await _messageRepository.ReadAllByBinIdAsync(id);
+                response.Model = messages;
 
             }
             catch (Exception ex)

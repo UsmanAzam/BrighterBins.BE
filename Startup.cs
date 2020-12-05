@@ -30,6 +30,7 @@ namespace BrighterBins.BE
             });
 
             services.AddScoped<IBinRepository, BinRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "AllowAll",

@@ -38,8 +38,8 @@ namespace BrighterBins.BE
                     Id = binIndex, 
                     Name = string.Format("Bin# {0}", rnd.Next(1,50)), 
                     FillLevel = rnd.Next(1, 100), 
-                    Lat = 50d + rnd.Next(516400146, 630304598) / 1000000000d, 
-                    Long = 4d + rnd.Next(224464416, 341194152) / 1000000000d
+                    Lat = rnd.Next(49, 51) + rnd.Next(516400146, 630304598) / 1000000000d, 
+                    Long = rnd.Next(2, 6) + rnd.Next(224464416, 341194152) / 1000000000d
                 };
                 for(int j =0; j < rnd.Next(1, 15); j++)
                 {
