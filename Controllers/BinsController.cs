@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BrighterBins.BE.Infrastructure;
 using BrighterBins.BE.Models;
 using BrighterBins.BE.Repositories.Interfaces;
 using BrighterBins.BE.ViewModels;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace BrighterBins.BE.Controllers
 {
     [ApiController]
-    [Route("bins")]
+    [Route("api/bins")]
     public class BinsController : ControllerBase
     {
         private readonly ILogger<BinsController> _logger;
@@ -27,16 +28,47 @@ namespace BrighterBins.BE.Controllers
         }
 
         [HttpGet]
-        public async Task<List<BinViewModel>> GetAllBinsAsync()
+        public async Task<IActionResult> GetAllBinsAsync()
         {
-            var bins =  await _binRepository.ReadAllAsync();
-            return  _mapper.Map<List<BinViewModel>>(bins);
+            var response = new ListResponse<BinViewModel>();
+
+            try
+            {
+                var bins = await _binRepository.ReadAllAsync();
+                response.Model =  _mapper.Map<List<BinViewModel>>(bins);
+                
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = "Server Error";
+                response.ErrorDetails = $"{ex.Message}\n{ex.InnerException?.Message}\n{ex.InnerException?.InnerException?.Message}";
+
+            }
+
+            return response.ToHttpResponse();
+           
         }
 
         [HttpGet("{id}")]
-        public async Task<Bin> GetBinById(string id)
+        public async Task<IActionResult> GetBinById(string id)
         {
-            return await _binRepository.ReadOneAsync(id);
+            var response = new SingleResponse<Bin>();
+
+            try
+            {
+                response.Model = await _binRepository.ReadOneAsync(id); 
+
+            }
+            catch (Exception ex)
+            {
+                response.DidError = true;
+                response.ErrorMessage = "Server Error";
+                response.ErrorDetails = $"{ex.Message}\n{ex.InnerException?.Message}\n{ex.InnerException?.InnerException?.Message}";
+
+            }
+
+            return response.ToHttpResponse();
         }
     }
 }
