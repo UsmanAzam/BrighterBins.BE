@@ -42,5 +42,22 @@ namespace BrighterBins.BE.Controllers
 
             return userAdded;
         }
+
+        [HttpPost("signin")]
+        public async Task<bool> AuthentiateUserAsync([FromBody] User user)
+        {
+            bool userAuthenticated = false;
+            try
+            {
+                userAuthenticated = await _userRepository.ReadOneAsync(user.Email, user.Password) != null;
+            }
+            catch (Exception c)
+            {
+                _logger.LogError(c.Message);
+                userAuthenticated = false;
+            }
+
+            return userAuthenticated;
+        }
     }
 }

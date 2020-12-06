@@ -43,6 +43,14 @@ namespace BrighterBins.BE.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<User> ReadOneAsync(string email, string password)
+        {
+            return await Task.Run(() =>
+            {
+                return Database.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
+            });
+        }
+
         public Task<User> UpdateAsync(User user)
         {
             throw new NotImplementedException();

@@ -12,6 +12,7 @@ namespace BrighterBins.BE.Repositories.Interfaces
 
         Task<User> FindByName(string name);
         Task<User> ReadOneAsync(int id);
+        Task<User> ReadOneAsync(string email, string password);
         Task<bool> CreateAsync(User user);
         Task<User> UpdateAsync(User user);
         Task DeleteAsync(string id);
