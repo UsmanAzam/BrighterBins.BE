@@ -29,6 +29,7 @@ namespace BrighterBins.BE
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BrighterBins.BE", Version = "v1" });
             });
 
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBinRepository, BinRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddCors(options =>

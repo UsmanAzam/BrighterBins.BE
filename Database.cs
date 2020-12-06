@@ -12,6 +12,7 @@ namespace BrighterBins.BE
         static private List<Bin> _bins = new List<Bin>();
         static int binIndex = 1;
         static int messageIndex = 1;
+        static int userIndex = 1;
         static Database()
         {
             Seed();
@@ -24,15 +25,15 @@ namespace BrighterBins.BE
         {
             _users = new List<User>()
             {
-                new User() { Id = Guid.NewGuid().ToString(), Email = "usman.azam173@gmail.com", Password= "123" },
-                new User() { Id = Guid.NewGuid().ToString(), Email = "shahid.iqbal@gmail.com", Password= "123" },
-                new User() { Id = Guid.NewGuid().ToString(), Email = "xs2khizerr@gmail.com", Password= "123" },
-                new User() { Id = Guid.NewGuid().ToString(), Email = "naveed.ali@gmail.com", Password= "123" },
+                new User() { Id = userIndex++, Email = "usman.azam173@gmail.com", Password= "123" },
+                new User() { Id = userIndex++, Email = "shahid.iqbal@gmail.com", Password= "123" },
+                new User() { Id = userIndex++, Email = "xs2khizerr@gmail.com", Password= "123" },
+                new User() { Id = userIndex++, Email = "naveed.ali@gmail.com", Password= "123" },
             };
 
             Random rnd = new Random();
             _bins = new List<Bin>();
-            for (int i=0; i <30; i++)
+            for (int i=0; i <300; i++)
             {
                 var bin = new Bin() { 
                     Id = binIndex, 
