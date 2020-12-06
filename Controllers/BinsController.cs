@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BrighterBins.BE.Extensions;
+using BrighterBins.BE.Utils;
 
 namespace BrighterBins.BE.Controllers
 {
@@ -32,14 +34,16 @@ namespace BrighterBins.BE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBinsAsync()
+        public async Task<IActionResult> GetAllBinsAsync([FromQuery] PagingParams pageParams = null)
         {
-            var response = new ListResponse<BinViewModel>();
+            var response = new PagedResponse<BinViewModel>();
 
             try
             {
-                var bins = await _binRepository.ReadAllAsync();
+                var bins = await _binRepository.ReadAllAsync(pageParams);
                 response.Model =  _mapper.Map<List<BinViewModel>>(bins);
+                response.PageNumber = pageParams.PageNumber;
+                response.PageSize = pageParams.PageSize;
                 
             }
             catch (Exception ex)
@@ -95,6 +99,12 @@ namespace BrighterBins.BE.Controllers
             }
 
             return response.ToHttpResponse();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<int> GetBinsCountAsync()
+        {
+            return await _binRepository.GetCount();
         }
     }
 }
