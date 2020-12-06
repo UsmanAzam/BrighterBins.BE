@@ -86,7 +86,7 @@ namespace BrighterBins.BE.Infrastructure
         public int ItemsCount { get; set; }
 
         public double PageCount
-            => ItemsCount < PageSize ? 1 : (int)(((double)ItemsCount / PageSize) + 1);
+            => ItemsCount < PageSize ? 1 : (int)(Math.Ceiling((double)ItemsCount / PageSize) );
     }
 
    

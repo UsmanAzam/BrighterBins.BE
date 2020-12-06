@@ -44,7 +44,7 @@ namespace BrighterBins.BE.Controllers
                 response.Model =  _mapper.Map<List<BinViewModel>>(bins);
                 response.PageNumber = pageParams.PageNumber;
                 response.PageSize = pageParams.PageSize;
-                
+                response.ItemsCount = await _binRepository.GetCount();
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace BrighterBins.BE.Controllers
             return response.ToHttpResponse();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("count")]
         public async Task<int> GetBinsCountAsync()
         {
             return await _binRepository.GetCount();
